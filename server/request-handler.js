@@ -14,6 +14,7 @@ this file and include it in basic-server.js so that it actually works.
 
 
 var defaultCorsHeaders = {
+  'access-control-request-method': '*',
   'access-control-allow-origin': '*',
   'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
   'access-control-allow-headers': 'content-type, accept',
@@ -21,7 +22,10 @@ var defaultCorsHeaders = {
 };
 
 var messages = {};
-messages.results = [];
+messages.results = [{
+      username: 'Jono',
+      message: 'Do my bidding!'
+    }];
 var headers = defaultCorsHeaders;
 headers['Content-Type'] = 'application/json';
 
@@ -29,7 +33,7 @@ var requestHandler = function(request, response) {
 
   var message = '';
 
-  if (request.url !== '/classes/messages') {
+  if (!request.url.includes('/classes/messages')) {
     response.writeHead(404, headers);
     response.end();
   } else if (request !== undefined) {
@@ -44,9 +48,9 @@ var requestHandler = function(request, response) {
       });
       request.on('end', () => {
         var responseBody = {
-          headers: headers,
-          url: request.url,
-          method: request.method,
+          // headers: headers,
+          // url: request.url,
+          // method: request.method,
           results: messages.results
         };
         response.end(JSON.stringify(responseBody));
@@ -65,9 +69,11 @@ var requestHandler = function(request, response) {
         response.end();
       });
     }
+    else if (request.method === 'OPTIONS') {
+      response.writeHead(200, headers);
+      response.end();
+    }
   }
-  
-  // console.log('Serving request type ' + request.method + ' for url ' + request.url);
 
 
 
