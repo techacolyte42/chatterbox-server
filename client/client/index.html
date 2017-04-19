@@ -22,20 +22,32 @@
     <!-- your scripts -->
     <script src="scripts/app.js"></script>
   </head>
+
   <body>
     <div id="main">
-    <h1>chatterbox</h1>
-    <!-- <div class="spinner"><img src="client/images/spiffygif_46x46.gif"></div> -->
-    <div id="rooms">
-      Room:
-      <select id="roomSelect">
-      </select>
+      <h1>chatterbox</h1> 
+      <!-- Your HTML goes here! -->
     </div>
-    <form action="#" id="send" method="post">
-      <input type="text" name="message" id="message"/>
-      <input type="submit" name="submit" class="submit"/>
-    </form>
+    <button class="createMessage">Create New Message</button>
+    <button id="createRoom">Create New Room</button>
+
+  <form>
+    New Room:<br>
+      <input type="text" class="newRoom" name="room"><br>
+        New Message:<br>
+      <input type="text" class="newMessage" name="msg">
+  </form>
+
+  <div class="dropdown">
+    <button class="dropbtn">Rooms</button>
+    <div id="roomSelect"></div>
   </div>
+
+
+
   <div id="chats"></div>
+    <div id="friends">TEST</div>
   </body>
+
 </html>
+
