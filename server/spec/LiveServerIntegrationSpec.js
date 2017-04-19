@@ -35,24 +35,24 @@ describe('server', function() {
 
   it('should accept POST requests to /classes/messages', function(done) {
     var requestParams = {method: 'POST',
-      uri: 'http://127.0.0.1:3000/classes/messages',
-      json: {
-        username: 'Jono',
-        message: 'Do my bidding!'}
+    uri: 'http://127.0.0.1:3000/classes/messages',
+    json: {
+      username: 'Jono',
+      message: 'Do my bidding!'}
     };
 
     request(requestParams, function(error, response, body) {
-      expect(response.statusCode).to.equal(201);
+      expect(response.statusCode).to.equal(204);
       done();
     });
   });
 
   it('should respond with messages that were previously posted', function(done) {
     var requestParams = {method: 'POST',
-      uri: 'http://127.0.0.1:3000/classes/messages',
-      json: {
-        username: 'Jono',
-        message: 'Do my bidding!'}
+    uri: 'http://127.0.0.1:3000/classes/messages',
+    json: {
+      username: 'Jono',
+      message: 'Do my bidding!'}
     };
 
     request(requestParams, function(error, response, body) {
@@ -69,6 +69,19 @@ describe('server', function() {
   it('Should 404 when asked for a nonexistent endpoint', function(done) {
     request('http://127.0.0.1:3000/arglebargle', function(error, response, body) {
       expect(response.statusCode).to.equal(404);
+      done();
+    });
+  });
+
+  it('Should respond 418 if message is "I am a teapot"', function(done) {
+    var requestParams = {method: 'POST',
+    uri: 'http://127.0.0.1:3000/classes/messages',
+    json: {
+      username: 'Jono',
+      message: 'I am a teapot'}
+    };
+    request(requestParams, function(error, response, body) {
+      expect(response.statusCode).to.equal(418);
       done();
     });
   });

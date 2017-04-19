@@ -68,7 +68,7 @@ describe('Node Server Request Listener Function', function() {
     handler.requestHandler(req, res);
 
     // Expect 201 Created response status
-    expect(res._responseCode).to.equal(201);
+    expect(res._responseCode).to.equal(204);
 
     // Testing for a newline isn't a valid test
     // TODO: Replace with with a valid test
@@ -86,7 +86,7 @@ describe('Node Server Request Listener Function', function() {
 
     handler.requestHandler(req, res);
 
-    expect(res._responseCode).to.equal(201);
+    expect(res._responseCode).to.equal(204);
 
       // Now if we request the log for that room the message we posted should be there:
     req = new stubs.request('/classes/messages', 'GET');
@@ -114,6 +114,51 @@ describe('Node Server Request Listener Function', function() {
       function() { return res._ended; },
       function() {
         expect(res._responseCode).to.equal(404);
+      });
+  });
+
+  it('Should respond to an options request', function() {
+    var req = new stubs.request('/classes/messages', 'OPTIONS');
+    var res = new stubs.response();
+
+    handler.requestHandler(req, res);
+
+    // Wait for response to return and then check status code
+    waitForThen(
+      function() { return res._ended; },
+      function() {
+        expect(res._responseCode).to.equal(200);
+        expect(res._headers).to.not.equal(null);
+      });
+  });
+
+  it('Should not accept PUT methods', function() {
+    var req = new stubs.request('/classes/messages', 'PUT');
+    var res = new stubs.response();
+
+    handler.requestHandler(req, res);
+
+    // Wait for response to return and then check status code
+    waitForThen(
+      function() { return res._ended; },
+      function() {
+        expect(res._responseCode).to.equal(402);
+        expect(res._headers).to.not.equal(null);
+      });
+  });
+
+  it('Should not accept Delete methods', function() {
+    var req = new stubs.request('/classes/messages', 'PUT');
+    var res = new stubs.response();
+
+    handler.requestHandler(req, res);
+
+    // Wait for response to return and then check status code
+    waitForThen(
+      function() { return res._ended; },
+      function() {
+        expect(res._responseCode).to.equal(418);
+        expect(res._headers).to.not.equal(null);
       });
   });
 
