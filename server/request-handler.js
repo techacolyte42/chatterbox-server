@@ -60,15 +60,11 @@ var requestHandler = function(request, response) {
 
         if (parsed.message) {
           messages.push(parsed);
-          console.log(messages)
         }
 
         response.end();
       });
-    }
-
-
-    else if (request.method === 'OPTIONS') {
+    } else if (request.method === 'OPTIONS') {
       response.writeHead(200, headers);
       response.end();
     }

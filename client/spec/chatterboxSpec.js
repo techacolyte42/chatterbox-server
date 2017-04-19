@@ -1,4 +1,4 @@
-  describe('chatterbox', function() {
+describe('chatterbox', function() {
   it('should parse correctly and have an object named `app`', function() {
     expect(app).to.be.an('object');
   });
@@ -111,6 +111,7 @@
 
         app.handleUsernameClick.restore();
       });
+    });
 
     //   it('should try to send a message upon clicking submit', function() {
     //     sinon.spy(app, 'handleSubmit');

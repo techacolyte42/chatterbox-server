@@ -1,4 +1,4 @@
-var clientUrl = "http://127.0.0.1:3000/classes/messages";
+var clientUrl = 'http://127.0.0.1:3000/classes/messages';
 var roomsArray = ['lobby'];
 var friendsList = [];
 
@@ -36,7 +36,7 @@ App.prototype.hasEscape = function(message) {
   } else {
     return false;
   }
-}
+};
 
 App.prototype.fetch = function(newData) {
   var context = this;
@@ -44,10 +44,9 @@ App.prototype.fetch = function(newData) {
   $.ajax({
     url: context.server,
     // data: 'order=-createdAt',
-    type: "GET",
+    type: 'GET',
     success: function(data) {
       // console.log('Data fetched');
-      console.log(data)
       context.clearMessages();
 
       data.results.forEach(function(message) {
@@ -67,7 +66,7 @@ App.prototype.fetch = function(newData) {
         }
       });
 
-        context.populateRoomsList();
+      context.populateRoomsList();
     },
     error: function(data) {
       console.log('failed to fetch data', data);
@@ -78,8 +77,8 @@ App.prototype.fetch = function(newData) {
 App.prototype.populateRoomsList = function() {
 
   if ($('#roomSelect').children().length > 0) {
-    $("#roomSelect").empty();
-  };
+    $('#roomSelect').empty();
+  }
 
   if (this.currentRoom === undefined) {
     this.currentRoom = roomsArray[0];
@@ -94,7 +93,6 @@ App.prototype.populateRoomsList = function() {
 };
 
 App.prototype.send = function(message) {
-  console.log(message)
 
   var context = this;
   $.ajax({
@@ -103,12 +101,10 @@ App.prototype.send = function(message) {
     contentType: 'application/json',
     data: JSON.stringify(message),
     success: function (data) {
-      console.log(data)
       console.log('chatterbox: Message sent');
-      context.fetch(app.currentRoom);
+      context.fetch(context.currentRoom);
     },
     error: function (data) {
-  
       console.error('chatterbox: Failed to send message', data);
     }
   });
@@ -117,7 +113,7 @@ App.prototype.send = function(message) {
 App.prototype.clearMessages = function() {
 
   $('#chats').html('');
-}
+};
 
 App.prototype.renderMessage = function(message) {
   var node = document.createElement('div');
@@ -141,7 +137,7 @@ App.prototype.renderMessage = function(message) {
 
   var $chats = $('#chats');
   $chats.append(node);
-}
+};
 
 App.prototype.renderRoom = function(roomText) {
 
@@ -149,7 +145,7 @@ App.prototype.renderRoom = function(roomText) {
     roomsArray.push(roomText);
   }
   this.populateRoomsList();
-} 
+};
   
 
 App.prototype.createMessage = function(username, text, roomname) {
@@ -157,11 +153,10 @@ App.prototype.createMessage = function(username, text, roomname) {
 
   message.username = username;
   message.message = text;
-  message.roomname = roomname
-  console.log(message)
+  message.roomname = roomname;
   this.send(message);
   
-}
+};
 
 
 var app = new App();
@@ -170,25 +165,25 @@ $(document).ready(function() {
 
   app.init();
 
-  $('.createMessage').on("click", function(event) {
-    var messageText = $(".newMessage").val();
+  $('.createMessage').on('click', function(event) {
+    var messageText = $('.newMessage').val();
     app.createMessage(app.currentUser, messageText, app.currentRoom);
   });
 
-  $('#createRoom').on("click", function(event) {
-    var roomText = $(".newRoom").val();
+  $('#createRoom').on('click', function(event) {
+    var roomText = $('.newRoom').val();
     app.clearMessages();
     app.currentRoom = roomText;
     app.renderRoom(roomText);
   });
 
-  $('#roomSelect').on("click", "a", function(event) {
+  $('#roomSelect').on('click', 'a', function(event) {
     app.currentRoom = this.textContent.trim();
     // console.log(app.currentRoom)
     app.fetch(app.currentRoom);
   });
 
-  $('div').on('click', ".username", function(event) {
+  $('div').on('click', '.username', function(event) {
     // console.log(this.textContent)
     if (!friendsList.includes(this.textContent)) {
       friendsList.push(this.textContent.substring(this.textContent.indexOf(':'), 0));
